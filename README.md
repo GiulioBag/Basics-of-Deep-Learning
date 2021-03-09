@@ -25,7 +25,7 @@ CNNs have two components:
     serve as a classifier on top of these extracted features. They will
     assign a probability for the object on the image.
 
-![AlexNet architecture scheme.](immagini/AlexNet.png)
+![AlexNet architecture scheme.](img/AlexNet.png)
 
 Convolutional networks were inspired by biological processes in that the
 connectivity pattern between neurons resembles the organization of the
@@ -76,7 +76,7 @@ points on the input. Specifically, the filter is applied systematically
 to each overlapping part or filter-sized patch of the input data, left
 to right, top to bottom.
 
-![Movement of the Kernel.](immagini/movimento_filtro.png)
+![Movement of the Kernel.](img/movimento_filtro.png)
 
 This systematic application of the same filter across an image is a
 powerful idea. If the filter is designed to detect a specific type of
@@ -89,7 +89,7 @@ is a two-dimensional array of output values that represent a filtering
 of the input. As such, the two-dimensional output array from this
 operation is called a *feature map*.
 
-![Filter application on the image.](immagini/convLayer.png)
+![Filter application on the image.](img/convLayer.png)
 
 The dimensions of the feature map will be:
 
@@ -127,7 +127,7 @@ The most frequent type of pooling is max pooling, which partitions the
 input image into a set of rectangles and, for each sub-region, outputs
 the maximum. These sub-region sizes need to be specified beforehand.
 
-![Application of Maxpool.](immagini/MaxPool.png)
+![Application of Maxpool.](img/MaxPool.png)
 
 This decreases the feature map size without introduce parameters while
 at the same time keeping the significant information.
@@ -159,7 +159,7 @@ The most used activation function is *ReLU*:
 
 $$R(x) = \max(0,x)$$
 
-![ReLU.](immagini/relu.png)
+![ReLU.](img/relu.png)
 
 One of the greatest advantage ReLU has over other activation functions
 is that it does not activate all neurons at the same time and it is less
@@ -272,7 +272,7 @@ difficult. Through the use of TL it is possible to recover the knowledge
 from data that do not belong at the task that it has to be performed and
 obtain good result also begin from a small amount of data.
 
-![AlexNet architecture scheme.](immagini/TL.png "fig:") [alex]
+![AlexNet architecture scheme.](img/TL.png "fig:") [alex]
 
 The two most popular strategies for deep transfer learning are:
 
@@ -401,7 +401,7 @@ images used need to be of size 224x224. If the input image does not has
 these dimensions, it needs to be converted to 224x224 before using it
 for training the network.
 
-![AlexNet architecture scheme.](immagini/alex2.png "fig:") [alex]
+![AlexNet architecture scheme.](img/alex2.png "fig:") [alex]
 
 The figure [alex] represents the architecture of the network, the list
 of parameters of the various levels is in this [GitHub
@@ -698,7 +698,7 @@ ReLU layer is applied to every output of the ConvLayers and the FC
 layers.
 
 ![Comparison between AlexNet and VGG architecture
-schemes.](immagini/vgg.png "fig:") [alex]
+schemes.](img/vgg.png "fig:") [alex]
 
 A stack of two (3x3) ConvLayers has an effective receptive field of one
 (5x5) ConvLayer; and three such ConvLayers have an effective receptive
