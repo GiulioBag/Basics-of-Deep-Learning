@@ -21,8 +21,8 @@ The following aspects were analyzed:
 -   Variations of the accuracy of the network with η and
     *step_size* changes.
 
--   Variations of the accuracy of the network with $\eta$ and
-    $step\_size$ changes with the pre-trailed network on the dataset
+-   Variations of the accuracy of the network with η and
+    *step_size* changes with the pre-trailed network on the dataset
     [ImageNet](http://www.image-net.org/).
 
 -   Study on the effects of the application of Data Augmentation.
@@ -63,12 +63,12 @@ cell:
 -   *tuneHyperparameters*: it is the method in which various
     hyperparameters are tested. Inside it contains a cycle in which the
     network is trained with the various combinations of
-    ($\eta, \> step\_size$). For each epoch the accuracy on the
+    (η, *step_size*). For each epoch the accuracy on the
     validation is calculated and, once the major one is determined, the
     network is retrained on the union of the train and the validation
     and its accuracy on the test set is calculated. This last training
     phase is carried out using the set of hyperparameters
-    ($\eta, \> step\_size, \> num\_epoch $) which gave the best accuracy
+    (η, **step_size**, *num\_epoch*) which gave the best accuracy
     in the previous phase. It is noteworthy that the number of epochs
     with which the network is trained the second time is not necessarily
     the maximum number of epochs defined but it is the one for which the
@@ -93,15 +93,15 @@ Since AlexNet was designed to classify 1000 images while the dataset
 used has only 101 all the methods in which the network is trained modify
 the number of outputs of the last FC level by setting it to 101.
 
-The couple of hyperparameters ($\eta, \> step\_size$) tested are showed
+The couple of hyperparameters (η, *step_size*) tested are showed
 in table [t1] and they are present in the code inside the *Set Argument*
 cell. The values for these hyperparameters have been chosen so that the
-high $\eta$ fall rapidly, while the low ones vary very slowly.
+high η fall rapidly, while the low ones vary very slowly.
 
 [H]
 
   -------- --------------
-   $\eta$   $step\_size$
+   η   *step_size*
     0.1          20
     0.01         30
     0.01         45
@@ -113,66 +113,66 @@ high $\eta$ fall rapidly, while the low ones vary very slowly.
 *Set Argument* cell also contains the remaining parameters to train the
 network as:
 
--   *NUM$\_$EPOCH*: is the maximum number of epochs for which the
-    network is trained, it is set to $200$.
+-   *NUM\_EPOCH*: is the maximum number of epochs for which the
+    network is trained, it is set to 200.
 
--   *BATCH$\_$SIZE*: is the dimension of each batch, it is set to $256$
-    for AlexNet while for VGG11 it is set to $32$.
+-   *BATCH\_SIZE*: is the dimension of each batch, it is set to 256
+    for AlexNet while for VGG11 it is set to 32.
 
--   *MOMENTUM, WEIGHT$\_$DECAY, GAMMA*: are parameters necessary for the
+-   *MOMENTUM, WEIGHT\_DECAY, GAMMA*: are parameters necessary for the
     calculation of the SGD algorithm, their values are
-    ($0.9, 5 * 10 ^ {- 5}, 0.1$), as mentioned above.
+    (0.9, 5 * 10 ^ {- 5}, 0.1), as mentioned above.
 
--   *HP, strip$\_$len*: are parameters necessary for the calculation of
+-   *HP, strip\_len*: are parameters necessary for the calculation of
     the early stop algorithm, they represent the maximum number of
     consecutively controlled strips and the length of each strip. Both
     are set to 5.
 
--   *train, TL, data$\_$augmetation($\_1/\_2/\_3$) transform*: are the
+-   *train, TL, data\_augmetation(\_1/\_2/\_3) transform*: are the
     objects that will be passed to the *prepareDataloader* method. All
     carry out the transformations necessary to bring the dimensions of
     the images from those original to those permitted by the network.
-    Since TL$\_$transform and data$\_$augmetation$\_$transforms are used
+    Since TL\_transform and data\_augmetation\_transforms are used
     to generate dataloaders that will scroll through images for
     pre-trained networks, these transforms normalize images with
-    different values than train$\_$transform. Furthermore
-    data$\_$augmentation$\_$transform is used for realize data
+    different values than train\_transform. Furthermore
+    data\_augmentation\_transform is used for realize data
     augmantation so it also implements a set of transformations.
 
 Training from scratch
 ---------------------
 
 After creating both the dataloaders, using the PrepDataloader method to
-which train$\_$trasform has been passed, and the untrained network,
+which train\_trasform has been passed, and the untrained network,
 which is provided by Pytorch in both version trained and untrained, the
 *tuneHyperparamameters* method is executed and its whose results are
 shown below.
 
-For the couple of hyperparameters ($\eta = 0.1, \>step\_size  = 20$) the
+For the couple of hyperparameters (η = 0.1, *step_size*  = 20) the
 best accuracy (16.25) is reached at the epoch 6. The train is stopped to
-the epoch 8 because the value of the loss is $NaN$, this happen because
-the high value of $\eta$ make diverge the loss.
+the epoch 8 because the value of the loss is NaN, this happen because
+the high value of η make diverge the loss.
 
 For the second couple of hyperparameters
-($\eta = 0.01, \>step\_size  = 30$) the best accuracy (47.61) is reached
-at the epoch 92. The lowest $\eta$ does not lead to the divergence of
+(η = 0.01, *step_size*  = 30) the best accuracy (47.61) is reached
+at the epoch 92. The lowest η does not lead to the divergence of
 the loss allowing the network to train for longer. The training phase
 ends at the iteration 185 due to the stop criterion. In the last 100
 epochs it is not possible to notice big changes in the accuracy
-calculated on the validation because, due to the very low $step\-size$,
+calculated on the validation because, due to the very low step\-size,
 the weights of the net are updated of very small quantities. The early
 stop criterion does not stop the training phase beforehand as the
 accuracy continues to improve slightly, until the last 25 epochs.
 
 For the third pair of hyperparameters
-($ \eta = 0.01,> step\ _size = 45 $) the best accuracy is (53.63) is
-reached at the epoch 90. Having a higher step size $\eta$ increases more
+( η = 0.01,> step\ _size = 45 ) the best accuracy is (53.63) is
+reached at the epoch 90. Having a higher step size η increases more
 slowly allowing more significant weight changes. As in the previous case
 it is possible to find how the accuracy remains more or less unchanged
-once $\eta$ assumes a value of $10^{-4}$.
+once η assumes a value of 10^{-4}.
 
 For the fourth pair of hyperparameters
-($ \eta = 0.0o1,> step\ _size = 60 $) the best accuracy is (9.19) is
+( η = 0.0o1,> step\ _size = 60 ) the best accuracy is (9.19) is
 reached at the epoch 3. After which the accuracy remains constant for
 the next 25 epochs and the early stop criterion stops the training.
 
@@ -189,11 +189,11 @@ it was decided to implement transfer learning as an attempt to improve
 the accuracy of the network. The TL mode used was *Fine Tuning
 Pre-trained Models* as in the entire pre-trained AlexNet it was trained
 on Caltech-101. To do this, the data loaders were created using the
-$TL\_transform$ transform object.
+TL\_transform transform object.
 
 The results, obtained by executing *tuneHyperparamameters* are showed
 below. As for the previous point, the pair of hyperparameters
-($\eta = 0.1, \> step\_size = 20$) caused the loss on the train to
+(η = 0.1,  *step_size* = 20) caused the loss on the train to
 diverge within the first epochs, thus interrupting the training of the
 network. On the other hand the other hyperparameter pairs have obtained
 significantly higher accuracy than the previous case. The results in
@@ -201,12 +201,12 @@ detail are shown in tables [t2]
 
 [H]
 
-<span>c|c|c|c</span> $\eta, $ & Max Acc and & Epoch of\
-$ step\_size$&Epoch&exit\
+<span>c|c|c|c</span> η,  & Max Acc and & Epoch of\
+ *step_size*&Epoch&exit\
 &&\
-($0.01,\> 30$) & ($86.30\%$, 52) & 120\
-($0.01,\> 45$) & ($87.21\%$, 90) & 115\
-($0.001,\> 60$) & ($85.13\%$, 113) & 180\
+(0.01, 30) & (86.30\%, 52) & 120\
+(0.01, 45) & (87.21\%, 90) & 115\
+(0.001, 60) & (85.13\%, 113) & 180\
 
 [t2]
 
@@ -217,14 +217,14 @@ continues to improve in later epochs when the model learns the
 high-level features of the images contained in Caltech-101.
 
 The result of the trained network, both on the train and on the
-validation, with the hyper-parameters (0.01, 45) is 85.00$\%$.
+validation, with the hyper-parameters (0.01, 45) is 85.00\%.
 
 Subsequently the network was retrained two more times, using the best
 pair of hyper-parameters obtained in the previous step, freezing in the
 first training the convolutional layers and in the second the fully
 connected layers. The accuracy calculated on the test in the two cases
 is very different, in the first case in fact the network reaches a value
-of $88.52\%$, while in the second case only $72.42\%$.
+of 88.52\%, while in the second case only 72.42\%.
 
 These phase of trainig took much less time than the previous ones, this
 is due to the fact that, freezing half of the levels, the update phase
@@ -236,19 +236,19 @@ Data Augmentation
 To further increase the volume of the datasets some Data Augmentation
 techniques have been applied.
 
-The objects $data\_augmentation\_trasform$ include within themselves the
+The objects data\_augmentation\_trasform include within themselves the
 following transformations:
 
 -   *RandomCrop*: Crop the given PIL Image at a random location.
 
 -   *RandomHorizontalFlip*: Horizontally flip the given PIL Image
-    randomly with $50\%$ probability.
+    randomly with 50\% probability.
 
 -   *Grayscale*: Convert image to grayscale. The number of the channels
     of the output image is set to 3.
 
 -   *RandomVerticalFlip*: Vertically flip the given PIL Image randomly
-    with $50\%$ probability.
+    with 50\% probability.
 
 -   *RandomRotation*: Rotate the image by angle between -90 and 90
     degrees.
@@ -267,9 +267,9 @@ The following combinations of transfomrations have been tested:
 For each combination of transformations the *tuneHyperparameters* method
 was performed . The best triad of transformations is: *RandomCrop,
 RandomHorizontalFlip, ColorJitterwith*. This set of transformations
-allows the network to reach an maximum accuracy of $74.59\%$ on the test
-set. The other two sets of transformations only reach the $72.21\%$ and
-the $68.89\%$ of accuracy.
+allows the network to reach an maximum accuracy of 74.59\% on the test
+set. The other two sets of transformations only reach the 72.21\% and
+the 68.89\% of accuracy.
 
 While before there was a strong similarity between the images of the
 train and the test set now there is no more, this leads to a general
@@ -336,11 +336,11 @@ time.
 
 Generally VGG11 performs better than AlexNet in all the tests involved,
 except those in which the combination of hyperparameters
-($\eta = 0.1, step\_size = 20$) has been used. This pair of
+(η = 0.1, *step_size* = 20) has been used. This pair of
 hyperparameters leads even VGG11 to have a loss equal to NaN. The
 results of the various experiments are shown in Table [t3]. Noteworthy
 is the accuracy obtained by the pretrained network with the pair of
-hyperparameters ($\eta = 0.001, step\_size = 60$), $90.7\%$ in fact it
+hyperparameters (η = 0.001, *step_size* = 60), 90.7\% in fact it
 is the best result obtained on the test in all the experiments
 performed.
 
@@ -348,15 +348,15 @@ performed.
 
   -------------- ----------------------------- -------------
        Test              Hyperamenters           Accuracy
-    Performed     ($\eta, step\_size, epoch$)   on test set
+    Performed     (η, *step_size*, epoch)   on test set
                                                
      Trained                                   
-       from             (0.01, 30, 55)           $52.3\%$
+       from             (0.01, 30, 55)           52.3\%
      scratch                                   
                                                
-        TL             (0.001, 60, 147)          $90.7\%$
+        TL             (0.001, 60, 147)          90.7\%
                                                
-       Data            (0.001, 60, 101)          $86.76\%$
+       Data            (0.001, 60, 101)          86.76\%
    Augmentation                                
   -------------- ----------------------------- -------------
 
@@ -429,7 +429,7 @@ applied through calculation of the dot product between a filter-sized
 patch of the input and itself. The Bias term is added to the result of
 this product.
 
-$$f(x,W) = W \cdot x + bias$$
+f(x,W) = W \cdot x + bias
 
 Using a filter smaller than the input is intentional as it allows the
 same filter to be multiplied by the input array many times at different
@@ -518,7 +518,7 @@ gradient descend or any other Optimization technique to reduce error.
 
 The most used activation function is *ReLU*:
 
-$$R(x) = \max(0,x)$$
+R(x) = \max(0,x)
 
 ![ReLU.](img/relu.png)
 
@@ -531,7 +531,7 @@ gradient at that region is zero. With the gradient equal to zero, during
 backpropagation all the weights will not be updated. To fix this, it can
 be used *Leaky ReLU*, which is similar to the ReLU with the only
 difference that in the negative region, instead of setting the value to
-zero ($x$), it sets it to $ \alpha \cdot x $. Also, ReLU functions are
+zero (x), it sets it to  \alpha \cdot x . Also, ReLU functions are
 not zero-centered. This means that for it to get to its optimal point,
 it will have to use a zig-zag path which may be longer.
 
@@ -560,8 +560,8 @@ summarized in the algorithm [train].
 \
  </span> <span> </span> </span> [train]
 
-Where *step\_size* indicates after how many epochs $\eta$ is decreased
-by a $\gamma$ factor, which has been set to 0.1 during the experiment.
+Where **step_size** indicates after how many epochs η is decreased
+by a \gamma factor, which has been set to 0.1 during the experiment.
 
 **Forward Pass:** the image is passed over the network, the ConvLayer
 and Pooling layers act as feature extractors while FC layer acts as a
@@ -572,7 +572,7 @@ the input image the Loss is calculated. In the experiment carried out a
 particular Loss called *CrossEntropyLoss* is used which is expressed
 with:
 
-$$loss(x,class)=  \left ( \log_{}{\frac{exp(x[class])}{\sum_j exp(x[j])}} \right) ^ {(-1)}$$
+loss(x,class)=  \left ( \log_{}{\frac{exp(x[class])}{\sum_j exp(x[j])}} \right) ^ {(-1)}
 
 **Backward Pass:** the backpropagation is applied, which computes the
 gradient of the loss function with respect to the weights of the network
@@ -589,11 +589,11 @@ Stochastic gradient descent is an optimization algorithm that estimates
 the error gradient for the current state of the model then updates the
 weights of the model using the back-propagation of errors algorithm. The
 amount that the weights are updated during training is referred to as
-the learning rate ($\eta$).
+the learning rate (η).
 
-$$w_{t+1} = w_t - \eta\nabla L(w_t)$$
+w_{t+1} = w_t - η\nabla L(w_t)
 
-Specifically, $\eta$ is a configurable hyperparameter used in the
+Specifically, η is a configurable hyperparameter used in the
 training of neural networks that has a small positive value, often in
 the range between 0.0 and 1.0.
 
@@ -603,7 +603,7 @@ smaller changes made to the weights each update, whereas larger learning
 rates result in rapid changes and require fewer training epochs. A
 learning rate that is too large can cause the model to converge too
 quickly to a suboptimal solution, whereas a learning rate that is too
-small can cause the process to get stuck. $\eta$ may be the most
+small can cause the process to get stuck. η may be the most
 important hyperparameter for the model.
 
 SGD presents some problems if there are local minimums or saddles. For
@@ -611,9 +611,9 @@ this reason the version of SGD + Momentum has been used. It allows us to
 better escape from these points, converging more quickly to a global
 solution. To do this the weights are updated differently:
 
-$$v_{t+1} =\rho_t + \nabla L(w_t)$$
+v_{t+1} =\rho_t + \nabla L(w_t)
 
-$$w_{t+1} = w_t - \eta v_{t+1}$$
+w_{t+1} = w_t - η v_{t+1}
 
 In the experiment rho value was set to 0.9.
 
@@ -747,14 +747,14 @@ To understand when the performance of the model on the validation set is
 decreasing due to overfitting, various techniques have been studied,
 explained in @early_stop. In particular, in the experiment, referring to
 the terminology of the article mentioned above, an early stop criterion
-of the UP type with parameters $(K = 5, \>S = 5)$ was developed.
+of the UP type with parameters (K = 5, S = 5) was developed.
 
 AlexNet
 =======
 
 AlexNet, which is the network used for experiments, competed in the
 ImageNet Large Scale Visual Recognition Challenge on September 30, 2012.
-The network achieved a top-5 error of 15.3$\%$, more than 10.8
+The network achieved a top-5 error of 15.3\%, more than 10.8
 percentage points lower than that of the runner up.
 
 The input to AlexNet is an RGB image of size 224x224. This means all
